@@ -15,6 +15,18 @@ class AuthenticationServiceTests(unittest.TestCase):
         self.given_otp("000000")
         self.should_be_invalid("joey", "wrong password")
 
+    def test_should_log_account_when_invalid(self):
+        self.when_invalid("joey")
+        self.fake_info.assert_called_once()
+        message = self.fake_info.call_args.args[0]
+        self.assertIn("joey", message)
+        self.assertIn("login failed", message)
+
+    def when_invalid(self, account):
+        self.given_password("91")
+        self.given_otp("000000")
+        is_valid(account, "wrong password")
+
     def should_be_invalid(self, account, password):
         self.assertEqual(False, is_valid(account, password))
 
@@ -32,6 +44,8 @@ class AuthenticationServiceTests(unittest.TestCase):
         self.fake_get_password = get_password_patcher.start()
         get_otp_patcher = patch('Otp.authentication_service.get_otp')
         self.fake_get_otp = get_otp_patcher.start()
+        info_patcher = patch('Otp.my_logger.MyLogger.info')
+        self.fake_info = info_patcher.start()
 
     def tearDown(self) -> None:
         patch.stopall()
