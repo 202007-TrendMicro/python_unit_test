@@ -10,6 +10,14 @@ class AuthenticationServiceTests(unittest.TestCase):
         self.given_otp("000000")
         self.should_be_valid("joey", "91000000")
 
+    def test_is_invalid(self):
+        self.given_password("91")
+        self.given_otp("000000")
+        self.should_be_invalid("joey", "wrong password")
+
+    def should_be_invalid(self, account, password):
+        self.assertEqual(False, is_valid(account, password))
+
     def should_be_valid(self, account, password):
         self.assertEqual(True, is_valid(account, password))
 
