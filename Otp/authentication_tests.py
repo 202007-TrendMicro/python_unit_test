@@ -17,10 +17,13 @@ class AuthenticationServiceTests(unittest.TestCase):
 
     def test_should_log_account_when_invalid(self):
         self.when_invalid("joey")
+        self.should_log("joey", "login failed")
+
+    def should_log(self, account, status):
         self.fake_info.assert_called_once()
         message = self.fake_info.call_args.args[0]
-        self.assertIn("joey", message)
-        self.assertIn("login failed", message)
+        self.assertIn(account, message)
+        self.assertIn(status, message)
 
     def when_invalid(self, account):
         self.given_password("91")
