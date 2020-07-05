@@ -3,7 +3,7 @@ import csv
 
 class Order(object):
 
-    def __init__(self, product_name, order_type, price, customer_name):
+    def __init__(self, product_name="", order_type="", price="", customer_name=""):
         self.customer_name = customer_name
         self.price = price
         self.type = order_type
