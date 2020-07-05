@@ -10,6 +10,10 @@ class HolidayTests(unittest.TestCase):
         self.given_today(12, 25)
         self.response_should_be("Merry Xmas")
 
+    def test_today_is_not_xmas(self):
+        self.given_today(11, 25)
+        self.response_should_be("Today is not Xmas")
+
     def response_should_be(self, expected):
         self.assertEqual(expected, say_hello())
 
