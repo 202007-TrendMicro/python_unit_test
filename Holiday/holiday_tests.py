@@ -7,8 +7,14 @@ from Holiday.holiday import say_hello
 
 class HolidayTests(unittest.TestCase):
     def test_today_is_xmas(self):
-        self.fake_get_today.return_value = date(2020, 12, 25)
-        self.assertEqual("Merry Xmas", say_hello())
+        self.given_today(12, 25)
+        self.response_should_be("Merry Xmas")
+
+    def response_should_be(self, expected):
+        self.assertEqual(expected, say_hello())
+
+    def given_today(self, month, day):
+        self.fake_get_today.return_value = date(2020, month, day)
 
     def setUp(self) -> None:
         get_today_patcher = patch('Holiday.holiday.__get_today')
